@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 자바의 인터페이스랑 연결 -->
+<mapper namespace="com.app.mybatis.mapper.UserMapper">
+
+    <!-- 회원 등록-->
+    <insert id="insert" parameterType="UserVO">
+        INSERT INTO TBL_USER
+        VALUES(SEQ_USER.NEXTVAL, #{userEmail}, #{userPassword}, #{userName})
+    </insert>
+
+    <!-- 회원 단일 조회 -->
+    <select id="select" parameterType="UserVO" resultType="UserVO">
+        SELECT ID, USER_EMAIL, USER_PASSWORD, USER_NAME
+        FROM TBL_USER
+        WHERE USER_EMAIL = #{userEmail} AND USER_PASSWORD = #{userPassword}
+    </select>
+
+    <!-- 회원 전체 조회 -->
+    <select id="selectAll" resultType="UserVO">
+        SELECT ID, USER_EMAIL, USER_PASSWORD, USER_NAME
+        FROM TBL_USER
+    </select>
+
+    <!-- 회원 정보 수정 -->
+    <update id="update" parameterType="UserVO">
+        UPDATE TBL_USER
+        SET USER_EMAIL = #{userEmail}, USER_PASSWORD = #{userPassword}, USER_NAME = #{userName}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 회원 탈퇴 -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM TBL_USER
+        WHERE ID = #{id}
+    </delete>
+
+</mapper>

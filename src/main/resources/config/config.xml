@@ -9,5 +9,6 @@
         <typeAlias type="com.app.mybatis.domain.MemberVO" alias="MemberVO" />
         <typeAlias type="com.app.mybatis.domain.PostVO" alias="PostVO" />
         <typeAlias type="com.app.mybatis.domain.PostDTO" alias="PostDTO" />
+        <typeAlias type="com.app.mybatis.domain.UserVO" alias="UserVO" />
     </typeAliases>
 </configuration>
