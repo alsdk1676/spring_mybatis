@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 자바의 인터페이스랑 연결 -->
+<mapper namespace="com.app.mybatis.mapper.NoticeMapper">
+    <!-- 게시물 등록 -->
+    <insert id="insert" parameterType="NoticeVO">
+        INSERT INTO TBL_NOTICE(ID, NOTICE_TITLE, NOTICE_CONTENT, USER_ID)
+        VALUES(SEQ_NOTICE.NEXTVAL, #{noticeTitle}, #{noticeContent}, #{userId})
+    </insert>
+
+    <!-- 게시물 단일 조회  -->
+    <select id="select" parameterType="Long" resultType="NoticeDTO">
+        SELECT TBN.ID, TBN.NOTICE_TITLE, TBN.NOTICE_CONTENT,
+        TBN.USER_ID, TBU.USER_NAME
+        FROM TBL_NOTICE TBN
+        JOIN TBL_USER TBU
+        ON TBN.USER_ID = TBU.ID AND TBN.ID = #{id}
+    </select>
+
+    <!-- 게시물 전체 조회 -->
+    <select id="selectAll" resultType="NoticeDTO">
+        SELECT TBN.ID, TBN.NOTICE_TITLE, TBN.NOTICE_CONTENT,
+        TBN.USER_ID, TBU.USER_NAME
+        FROM TBL_NOTICE TBN
+        JOIN TBL_USER TBU
+        ON TBN.USER_ID = TBU.ID
+    </select>
+
+    <!-- 게시물 수정 -->
+    <update id="update" parameterType="NoticeVO">
+        UPDATE TBL_NOTICE
+        SET NOTICE_TITLE = #{noticeTitle}, NOTICE_CONTENT = #{noticeContent}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 게시물 삭제 -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM TBL_NOTICE
+        WHERE ID = #{id}
+    </delete>
+
+
+
+</mapper>
