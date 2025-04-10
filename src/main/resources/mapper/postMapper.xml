@@ -39,24 +39,64 @@
         WHERE ID = #{id}
     </update>
 
+<!--    <select id="selectAllWithOrder" parameterType="String" resultType="PostVO">-->
+<!--        SELECT ID, POST_TITLE, POST_CONTENT, POST_READ_COUNT, MEMBER_ID-->
+<!--        FROM TBL_POST-->
+<!--        ORDER BY-->
+<!--        <choose>-->
+<!--            <when test="order.equals('popular'.toString())">-->
+<!--                POST_READ_COUNT-->
+<!--            </when>-->
+<!--            <otherwise>-->
+<!--                ID-->
+<!--            </otherwise>-->
+<!--        </choose>-->
+<!--        DESC-->
+<!--    </select>-->
+
+
     <select id="selectAllWithOrder" parameterType="String" resultType="PostVO">
         SELECT ID, POST_TITLE, POST_CONTENT, POST_READ_COUNT, MEMBER_ID
         FROM TBL_POST
         ORDER BY
         <choose>
-            <when test="order.equals('popular'.toString())">
+            <when test="order.equals('popular')">
                 POST_READ_COUNT
             </when>
             <otherwise>
                 ID
             </otherwise>
         </choose>
-        DESC
+        <if test="order != 'asc'">
+            DESC
+        </if>
     </select>
 
 
-
-
-
+    <!-- 다중 파라미터 받을 땐 Map! -->
+    <select id="selectAllWithParams" parameterType="Map" resultType="PostVO">
+        SELECT ID, POST_TITLE, POST_CONTENT, POST_READ_COUNT, MEMBER_ID
+        FROM TBL_POST
+        ORDER BY
+        <choose>
+            <when test="order.equals('popular')">
+                POST_READ_COUNT
+            </when>
+            <otherwise>
+                ID
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="direction != null and direction.equals('asc')">
+                ASC
+            </when>
+            <otherwise>
+                DESC
+            </otherwise>
+        </choose>
+--         기본 1로 시작하기 때문에 0부터 시작할 수 있도록 -1
+        OFFSET (#{cursor} - 1) * 5 ROWS
+        FETCH NEXT 5 ROWS ONLY
+    </select>
 
 </mapper>

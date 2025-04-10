@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.lang.reflect.Member;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -47,6 +48,10 @@ public class PostTests {
 //        for (PostDTO post : posts) {
 //            log.info("{}", post);
 //        }
+
+//        postMapper.selectAll().forEach(post -> {
+//            log.info("{}", post);
+//        });
     }
 
     @Test
@@ -110,8 +115,8 @@ public class PostTests {
         }
     }
 
-    // 동적쿼리 (정렬)
-//    아무것도 전달하지 않을 때(빈값으로 전달할때)
+//    동적쿼리 정렬
+//    아무것도 전달하지 않을 때
     @Test
     public void selectWithOrderTest(){
         String order = null;
@@ -120,6 +125,8 @@ public class PostTests {
                 .stream().map(PostVO::toString).forEach(log::info);
     }
 
+//    동적쿼리 정렬
+//    아무것도 전달하지 않을 때
     @Test
     public void selectWithOrderTestPopular(){
         String order = "popular";
@@ -130,5 +137,24 @@ public class PostTests {
 
 //    postMapper에 동적쿼리 추가하기
 //    만약 ORDER가 "asc"라면 오름차순으로 정렬하기
+
+
+//   조회수 많은 순으로 5개 가져오기
+    @Test
+    public void selectWithParamsTest(){
+        HashMap<String,Object> params = new HashMap<>();
+        params.put("order", "popular");
+        params.put("cursor", 1);
+//        첫 디폴트 페이지에는 cursor = 1이 나오지 않음(URI에서)
+//        따라서 cursor가 null일떄도 1로 보내주기
+//        if(cursor == null) {
+//            cursor = 1;
+//        }
+//        params.put("cursor", 5);
+        params.put("direction", "desc");
+
+        postMapper.selectAllWithParams(params)
+                .stream().map(PostVO::toString).forEach(log::info);
+    }
 
 }

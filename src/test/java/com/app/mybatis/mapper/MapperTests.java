@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -68,6 +69,9 @@ public class MapperTests {
         memberMapper.selectAll().forEach((memberVO) -> {
             log.info("{}", memberVO);
         });
+
+//        List<MemberVO> members = memberMapper.selectAll();
+//        members.stream().map(MemberVO::toString).forEach(log::info);
     }
 
     @Test
